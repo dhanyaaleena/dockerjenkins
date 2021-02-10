@@ -1,0 +1,35 @@
+ - hosts: ansible_host   
+   become: yes
+   become_method: sudo
+   remote_user: dhanya
+
+   tasks:
+  
+    
+    - name: Deploying app to Tomcat at http://<server-ip>:8080/
+      copy: 
+        src: /var/lib/jenkins/workspace/CICDwebapp/target/bootwebapp-0.0.1-SNAPSHOT.war
+        dest: /opt/tomcat/webapps/
+        follow: yes
+
+    - name: Adding context path or app name 
+      command: mv /opt/tomcat/webapps/bootwebapp-0.0.1-SNAPSHOT.war /opt/tomcat/webapps/bootwebapp.war
+       
+    - name: create bootwebapp directory
+      file: 
+        path: /opt/tomcat/webapps/bootwebapp
+        state: directory
+        mode: 0777
+      
+    - name: Install Unzip
+      command: apt install unzip
+  
+    - name: Deploying into http://<server-ip>:8080/bootwebapp/
+      shell: "unzip /opt/tomcat/webapps/bootwebapp.war -d /opt/tomcat/webapps/bootwebapp"   
+       
+    - name: Start and enable Tomcat service
+      systemd:
+        name: tomcat
+        state: started
+        enabled: true
+        daemon_reload: true
