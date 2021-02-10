@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.training</groupId>
-	<artifactId>bootwebapp</artifactId>
+	<artifactId>docker-jenkins</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>bootwebapp</name>
+	<name>docker-jenkins</name>
 	<description>Demo for spring boot web application</description>
 
 	<properties>
